@@ -41,7 +41,7 @@ class Transactions(APIView):
         mono= Mono(mono_id)
         (data,status) = mono.Auth()
         mono.SetUserId(data.get("id"))
-        data, status = mono.getTransactions(pagination=False)
+        data, status = mono.getTransactions(paginate=False)
         return Response({"status": "Success", "data": data})
     
     
