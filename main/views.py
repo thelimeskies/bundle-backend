@@ -15,6 +15,7 @@ from rest_framework import viewsets
 from .serializer import MonoIdSerializer
 from .models import MonoId
 
+
 class MonoIdViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     queryset = MonoId.objects.all()
@@ -44,4 +45,65 @@ class Transactions(APIView):
         data, status = mono.getTransactions(paginate=False)
         return Response({"status": "Success", "data": data})
     
+class Statement(APIView):
+    authentication_classes = (TokenAuthentication,)
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            mono_id = request.data['mono_id']
+            month = request.data['month']
+        except KeyError:
+            return Response({'error': 'mono_id and month is required'})
+        
+        mono= Mono(mono_id)
+        (data,status) = mono.Auth()
+        mono.SetUserId(data.get("id"))
+        data, status = mono.getStatement(month)
+        return Response({"status": "Success", "data": data})
+    
+class Credits(APIView):
+    authentication_classes = (TokenAuthentication,)
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            mono_id = request.data['mono_id']
+        except KeyError:
+            return Response({'error': 'mono_id is required'})
+        
+        mono= Mono(mono_id)
+        (data,status) = mono.Auth()
+        mono.SetUserId(data.get("id"))
+        data, status = mono.getCredits()
+        return Response({"status": "Success", "data": data})
+
+class Debits(APIView):
+    authentication_classes = (TokenAuthentication,)
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            mono_id = request.data['mono_id']
+        except KeyError:
+            return Response({'error': 'mono_id is required'})
+        
+        mono= Mono(mono_id)
+        (data,status) = mono.Auth()
+        mono.SetUserId(data.get("id"))
+        data, status = mono.getDebits()
+        return Response({"status": "Success", "data": data})
+
+class Account(APIView):
+    authentication_classes = (TokenAuthentication,)
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            mono_id = request.data['mono_id']
+        except KeyError:
+            return Response({'error': 'mono_id is required'})
+        
+        mono = Mono(mono_id)
+        (status, data) = mono.Auth()
+        mono.SetUserId(data.get("id"))
+        data, status = mono.getAccount()
+        return Response({"status": "Success", "data": data})
+
     

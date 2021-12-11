@@ -150,3 +150,8 @@ EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = env('EMAIL_HOST')
 EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
+
+
+REST_AUTH_SERIALIZERS = {
+    'TOKEN_SERIALIZER': 'main.serializer.CustomTokenSerializer' # import path to CustomTokenSerializer defined above.
+}
