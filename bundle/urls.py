@@ -36,5 +36,5 @@ urlpatterns = [
     path('auth/', include('dj_rest_auth.urls')),
     path('auth/registration/', include('dj_rest_auth.registration.urls')),
     path('doc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('connect', include('main.urls')),
+    path('connect/', include('main.urls')),
 ]
