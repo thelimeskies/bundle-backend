@@ -39,6 +39,8 @@ SITE_ID = 1
 INSTALLED_APPS = [
     'main',
     
+    'drf_yasg',
+    
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
