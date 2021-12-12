@@ -30,7 +30,7 @@ class MonoIDView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        mono_id = MonoId.objects.create(user=request.user, mono_id=request.data['mono_id'])
+        mono_id = MonoId.objects.create(user=request.user, mono_id=request.data['mono_id'], account_name=request.data['account_name'])
         return Response(MonoIdSerializer(mono_id).data)
     
 class Transactions(APIView):
