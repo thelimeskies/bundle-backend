@@ -159,3 +159,12 @@ EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
 REST_AUTH_SERIALIZERS = {
     'TOKEN_SERIALIZER': 'main.serializer.CustomTokenSerializer' # import path to CustomTokenSerializer defined above.
 }
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', 
+    )
+}
