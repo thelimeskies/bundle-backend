@@ -16,6 +16,7 @@ from .serializer import MonoIdSerializer
 from .models import MonoId
 
 
+
 class MonoIdViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     queryset = MonoId.objects.all()
@@ -100,8 +101,8 @@ class Account(APIView):
         except KeyError:
             return Response({'error': 'mono_id is required'})
         
-        mono = Mono(mono_id)
-        (status, data) = mono.Auth()
+        mono= Mono(mono_id)
+        (data,status) = mono.Auth()
         mono.SetUserId(data.get("id"))
         data, status = mono.getAccount()
         return Response({"status": "Success", "data": data})
