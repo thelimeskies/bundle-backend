@@ -15,18 +15,20 @@ from rest_framework import viewsets
 from .serializer import MonoIdSerializer
 from .models import MonoId
 
+os.environ['MONO-SEC-KEY'] = "test_sk_xCkpAQF17YYbbHlal3Ez"
 
-
-class MonoIdViewSet(viewsets.ModelViewSet):
-    authentication_classes = (TokenAuthentication,)
+class MonoIDView(viewsets.ModelViewSet):
+    # authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     queryset = MonoId.objects.all()
     serializer_class = MonoIdSerializer
     
     def list(self, request, *args, **kwargs):
-        mono_id = MonoId.objects.filter(user=request.user)
-        serializer = MonoIdSerializer(mono_id, many=True)
+        user_id = MonoId.objects.filter(user=request.user)
+        serializer = MonoIdSerializer(user_id, many=True)
         return Response(serializer.data)
-    
+
     def create(self, request, *args, **kwargs):
         mono_id = MonoId.objects.create(user=request.user, mono_id=request.data['mono_id'])
         return Response(MonoIdSerializer(mono_id).data)

@@ -3,7 +3,7 @@ from rest_framework import routers
 from . import views
 from .views import Transactions, Statement, Debits, Account, Credits
 router = routers.DefaultRouter()
-router.register(r'monoid', views.MonoIdViewSet)
+router.register(r'monoid', views.MonoIDView)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

@@ -5,7 +5,7 @@ class MonoIdSerializer(serializers.ModelSerializer):
     mono_id = serializers.CharField(max_length=100)
     class Meta:
         model = MonoId
-        fields = ('mono_id')
+        fields = ('id', 'mono_id')
         
         
 from django.conf import settings
