@@ -1,5 +1,6 @@
+from django.db.models import fields
 from rest_framework import serializers
-from .models import MonoId
+from .models import MonoId, StatementRequest, SendStatement
 
 class MonoIdSerializer(serializers.ModelSerializer):
     mono_id = serializers.CharField(max_length=100)
@@ -7,6 +8,15 @@ class MonoIdSerializer(serializers.ModelSerializer):
         model = MonoId
         fields = ('id', 'mono_id', 'account_name')
         
+class StatementReqSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StatementRequest
+        fields = ('id', 'receiver', 'reason')
+
+class SendStatementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SendStatement
+        fields = ('id', 'sender', 'receiver', 'timeline', 'statement')
         
 from django.conf import settings
 
