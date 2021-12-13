@@ -11,9 +11,13 @@ from drf_yasg import openapi
 from pymono import Mono
 import os
 
+from django.conf import settings
+from django.core.mail import send_mail
+
 from rest_framework import viewsets
 from .serializer import MonoIdSerializer, StatementReqSerializer, SendStatementSerializer
 from .models import MonoId, StatementRequest, SendStatement
+from main import models
 
 
 class MonoIDView(viewsets.ModelViewSet):
@@ -118,7 +122,18 @@ class ReqStatementViewSet(viewsets.ModelViewSet):
                                               receiver=request.data['receiver'],
                                               reason=request.data['reason'])
         serializer = StatementReqSerializer(req)
-        return Response(serializer.data)
+        
+        subject = "You've Received Request to send Statement from {}".format(request.user.username)
+        message = 'Hi {}, You have a Request to send your statement of Account for "{}".'.format(request.data['receiver'], request.data["reason"])
+        email_from = settings.EMAIL_HOST_USER
+        user = models.User.objects.filter(username=request.data['receiver']).values()
+        try:
+            recipient_list = [user[0]['email'], ]
+            send_mail( subject, message, email_from, recipient_list )
+            
+            return Response(serializer.data)
+        except:
+            return Response({"error": "User does not Exist"})
     
     def list(self, request, *args, **kwargs):
         user_id = StatementRequest.objects.filter(receiver=request.user.username)
@@ -146,8 +161,10 @@ class SendStatementViewSet(viewsets.ModelViewSet):
         send = SendStatement.objects.create(sender=request.user, 
                                         receiver=request.data['receiver'], 
                                         timeline=request.data['timeline'],
+                                        reason = request.data['reason'],
                                         statement=data
                                         )
+
         return Response(SendStatementSerializer(send).data)
     
     

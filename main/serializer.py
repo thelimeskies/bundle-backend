@@ -16,7 +16,7 @@ class StatementReqSerializer(serializers.ModelSerializer):
 class SendStatementSerializer(serializers.ModelSerializer):
     class Meta:
         model = SendStatement
-        fields = ('id', 'sender', 'receiver', 'timeline', 'statement')
+        fields = ('id', 'sender', 'receiver', 'timeline', 'statement', 'reason')
         
 from django.conf import settings
 

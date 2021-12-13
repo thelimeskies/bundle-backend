@@ -22,6 +22,7 @@ class SendStatement(models.Model):
     receiver = models.CharField(max_length=50)
     timeline = models.CharField(max_length=20)
     statement = models.JSONField()
+    reason = models.CharField(max_length=250)
     created_at = models.DateTimeField(auto_now_add=True)
         
     
