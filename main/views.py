@@ -114,7 +114,7 @@ class ReqStatementViewSet(viewsets.ModelViewSet):
     serializer_class = StatementReqSerializer
     
     def create(self, request, *args, **kwargs):
-        req = StatementRequest.objects.create(sender=request.user.username, 
+        req = StatementRequest.objects.create(sender=request.user, 
                                               receiver=request.data['receiver'],
                                               reason=request.data['reason'])
         serializer = StatementReqSerializer(req)
@@ -143,7 +143,7 @@ class SendStatementViewSet(viewsets.ModelViewSet):
         (data, status) = mono.getStatement(request.data['timeline'])
         
         
-        send = SendStatement.objects.create(sender=request.user.username, 
+        send = SendStatement.objects.create(sender=request.user, 
                                         receiver=request.data['receiver'], 
                                         timeline=request.data['timeline'],
                                         statement=data
