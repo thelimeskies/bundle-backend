@@ -158,7 +158,7 @@ class SendStatementViewSet(viewsets.ModelViewSet):
         (data, status) = mono.getStatement(request.data['timeline'])
         
         
-        send = SendStatement.objects.create(sender=request.user, 
+        send = SendStatement.objects.create(sender=request.user.username, 
                                         receiver=request.data['receiver'], 
                                         timeline=request.data['timeline'],
                                         reason = request.data['reason'],
